@@ -7,6 +7,23 @@
 
 export default {
 
+<<<<<<< HEAD
+}
+</script>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+body {
+  font-size: 16px;
+  background-image: url("./assets/sample-pattern.png");
+  max-height: 1000px;
+  /* background-color: black; */
+  font-family: 'Slabo 27px', serif;
+=======
 }
 </script>
 <style>
@@ -84,5 +101,6 @@ body {
   text-align: center;
   text-decoration: none;
   padding: 5px 60px;
+>>>>>>> 3358c2606aa38c7665cd461406141f423032a543
 }
 </style>
