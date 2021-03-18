@@ -16,8 +16,19 @@ const routes = [
     component: () => import('../views/lobby.vue')
   },
   {
-    path: '/about',
-    name: 'About',
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      auth: true
+    }
+  },
+  {
+    path: '/lobby',
+    name: 'Lobby',
+    meta: {
+      auth: false
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -26,6 +37,9 @@ const routes = [
   {
     path: '/rules',
     name: 'Rules',
+    meta: {
+      auth: false
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -34,6 +48,9 @@ const routes = [
   {
     path: '/plays',
     name: 'Plays',
+    meta: {
+      auth: false
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -45,6 +62,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const isLogged = localStorage.name
+  if (isLogged) next()
+  else {
+    if (to.meta.auth) next()
+    else next('/login')
+  }
 })
 
 export default router
