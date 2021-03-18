@@ -16,11 +16,14 @@
 
 <script>
 import player from './player'
+import avataaars from './player'
+
 export default {
   name: 'card',
   props: ['room'],
   components: {
-    player
+    player,
+    avataaars
   }
 }
 </script>
