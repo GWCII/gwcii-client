@@ -51,6 +51,18 @@
 
 <script>
 export default {
+    computed: {
+        soalList () {
+           return this.$store.state.soalList
+        }
+    },
+    created () {
+        this.$store.dispatch.fetchSoal
+        
+    },
+    mounted () {
+        console.log(this.soalList);
+    }
 
 }
 </script>
