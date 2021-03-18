@@ -34,7 +34,6 @@ export default {
   computed: {
     ...mapState(['rooms'])
   }
-
 }
 </script>
 

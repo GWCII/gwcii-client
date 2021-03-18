@@ -10,17 +10,28 @@
         <player v-for="(player, idx) in room.users" :key="idx" :player="player"/>
       </ul>
     </div>
-    <button class="btn btn-danger">JOIN</button>
+    <button class="btn btn-danger" @click.prevent="joinRoom(room.name)">JOIN</button>
   </div>
 </template>
 
 <script>
+import Avataaars from 'vuejs-avataaars'
 import player from './player'
 export default {
   name: 'card',
   props: ['room'],
   components: {
-    player
+    player,
+    Avataaars
+  },
+  methods: {
+    joinRoom (name) {
+      let data = {
+        name,
+        username: localStorage.name
+      }
+      this.$socket.emit('joinRoom', data);
+    }
   }
 }
 </script>
