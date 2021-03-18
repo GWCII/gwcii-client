@@ -6,12 +6,6 @@
         <input type="text" id= "fname" placeholder="Type your name"><br> <br>
         <button class="btn btn-danger">ENTER</button>
     </div>
-    <div class = "home-box settings text-center">
-        <h1>Guess What Celebrity is it</h1>
-        <p>Are you ready?</p>
-        <input type="text" id= "fname" placeholder="Type your name"><br> <br>
-        <button class="btn btn-danger">ENTER</button>
-    </div>
 </div>
 </template>
 
