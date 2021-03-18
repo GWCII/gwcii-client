@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 import VueSocketIO from 'vue-socket.io'
 import VueFakeInput from 'vue-fake-input';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueFakeInput);
 Vue.config.productionTip = false
