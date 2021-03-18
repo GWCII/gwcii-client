@@ -2,40 +2,39 @@
   <div class="container text-center">
     <div>
       <h1>LIST ROOM</h1>
-      <input type="text" placeholder="Create Room">
+      <input type="text" placeholder="Create Room" v-model="roomName" v-on:keyup.enter="createRoom">
     </div>
-      <div class = "home-box settings text-center">
-        <h2>Makan kentut</h2>
-        <hr>
-        <h4>Admin</h4>
-        <p> <avataaars style="width:40px; height:40px"></avataaars> lorem ipsum</p>
-        <h4>Players</h4>
-        <div class="card mx-auto" style="width: 18rem;">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"> <avataaars style="width:40px; height:40px"></avataaars> Cras justo odio</li>
-            <li class="list-group-item"> <avataaars style="width:40px; height:40px"></avataaars> Cras justo odio</li>
-            <li class="list-group-item"> <avataaars style="width:40px; height:40px"></avataaars> Cras justo odio</li>
-            <li class="list-group-item"> <avataaars style="width:40px; height:40px"></avataaars> Cras justo odio</li>
-          </ul>
-        </div>
-        <button class="btn btn-danger">JOIN</button>
-    </div>
-     <div class = "home-box settings text-center">
-        <h1>Guess What Celebrity is it</h1>
-        <p>Are you ready?</p>
-        <input type="text" id= "fname" placeholder="Type your name"><br> <br>
-        <button class="btn btn-danger">ENTER</button>
-    </div>
+    <card v-for="(room, idx) in rooms" :key="idx" :room="room"/>
   </div>
 </template>
 
 <script>
-import Avataaars from 'vuejs-avataaars'
+import card from '../components/card'
+import {mapState} from 'vuex'
 
 export default {
+  data () {
+    return {
+      roomName: ''
+    }
+  },
   components: {
-    Avataaars
+    card
+  },
+  methods: {
+    createRoom () {
+      let dataRoom = {
+        name: this.roomName,
+        admin: localStorage.name
+      }
+      this.$socket.emit('createRoom', dataRoom)
+      this.roomName = ''
+    }
+  },
+  computed: {
+    ...mapState(['rooms'])
   }
+
 }
 </script>
 
@@ -62,31 +61,4 @@ export default {
     opacity: 1;
   }
 }
-.home-box h2, .home-box p {
-  text-align: center;
-  line-height: 40px;
-}
-
-.home-box h4{
-  margin-top:10px;
-  font-weight: 500px;
-  color: grey;
-}
-.btn {
-  margin:20px;
-}
-input{
-  text-align: center;
-  text-decoration: none;
-  padding: 5px 60px;
-}
-hr { 
-  display: block;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
-  border-style: inset;
-  border-width: 1px;
-} 
 </style>
