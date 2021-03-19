@@ -14,7 +14,7 @@ const routes = [
     component: () => import('../views/lobby.vue')
   },
   {
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: Login,
     meta: {
@@ -33,7 +33,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Rules.vue')
   },
   {
-    path: '/plays',
+    path: '/plays/:room',
     name: 'Plays',
     meta: {
       auth: true
@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
   if (isLogged) next()
   else {
     if (!to.meta.auth) next()
-    else next('/login')
+    else next('/')
   }
 })
 

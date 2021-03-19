@@ -1,37 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from '@/axios/axios.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    rooms: [],
     soalList: [],
-    rooms: []
+    roomDetail: []
   },
   mutations: {
     insertSoal (state, payload) {
       state.soalList = payload
     },
     addRoom (state, payload) {
-      console.log(payload)
       state.rooms = payload
+    },
+    roomDetail (state, payload) {
+      state.roomDetail = payload
     }
   },
   actions: {
-    fetchSoal(context) {
-      axios
-        .get('/soal')
-        .then(({data}) => {
-          context.commit("insertSoal", data)
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      },
       SOCKET_updatedRoom (context, payload) {
         context.commit('addRoom', payload);
-      }    
+      },    
+      SOCKET_getRooms (context, payload) {
+        context.commit('addRoom', payload);
+      },
+      SOCKET_roomDetail (context, payload) {
+        context.commit('roomDetail', payload);
+      }
   },
   modules: {
   }

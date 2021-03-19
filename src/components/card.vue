@@ -16,7 +16,7 @@
 
 <script>
 import Avataaars from 'vuejs-avataaars'
-import player from './player'
+import player from './list-player'
 export default {
   name: 'card',
   props: ['room'],
@@ -26,11 +26,17 @@ export default {
   },
   methods: {
     joinRoom (name) {
-      let data = {
-        name,
-        username: localStorage.name
+      if(this.room.users <= 4){
+        let data = {
+          name,
+          username: localStorage.name,
+          score: 0
+        }
+        this.$socket.emit('joinRoom', data);
+        this.$router.push(`/plays/${data.name}`)
+      } else {
+       console.log("PENUH")
       }
-      this.$socket.emit('joinRoom', data);
     }
   }
 }
