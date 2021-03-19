@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     rooms: [],
     soalList: [],
-    roomDetail: []
+    roomDetail: [],
+    questions: []
   },
   mutations: {
     insertSoal (state, payload) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     roomDetail (state, payload) {
       state.roomDetail = payload
+    },
+    addQuestion (state, payload) {
+      state.questions = payload
     }
   },
   actions: {
@@ -29,6 +33,9 @@ export default new Vuex.Store({
       },
       SOCKET_roomDetail (context, payload) {
         context.commit('roomDetail', payload);
+      },
+      SOCKET_addQuestion (context, payload) {
+        context.commit('addQuestion', payload);
       }
   },
   modules: {

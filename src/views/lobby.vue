@@ -23,12 +23,17 @@ export default {
   },
   methods: {
     createRoom () {
-      let dataRoom = {
-        name: this.roomName,
-        admin: localStorage.name
+      const isRoom = this.rooms.find(room => room.name === this.roomName);
+      if(!isRoom){
+        let dataRoom = {
+          name: this.roomName,
+          admin: localStorage.name
+        }
+        this.$socket.emit('createRoom', dataRoom)
+      } else {
+        console.log("Room is already created")
       }
-      this.$socket.emit('createRoom', dataRoom)
-      this.roomName = ''
+        this.roomName = ''
     }
   },
   computed: {

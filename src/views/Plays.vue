@@ -17,17 +17,17 @@
                 </div>
                 </div>
             </div>
-            
-            <div v-if="isStart === true">           
+
+            <div v-if="isStart === true">         
                 <div id="gambar">
                     <div id="timer"></div>                    
-                        <img src="../assets/soal/soal 10.jpg" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
+                        <img :src="questions[index].nama" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
                 </div>
-                    <h1 class="hint" id="hint"></h1>
+                    <h1 class="hint" id="hint">{{questions[index].hint}}</h1>
                 <br><br><br>
                 <div class="d-flex justify-content-center">
                     <input type="text" id="jawaban" placeholder="Famous Celebrity"> 
-                    <input type="submit" value="submit" id="ambilJawaban" onclick="getAnswer()">
+                    <input type="submit" value="submit" id="ambilJawaban" @click.prevent ="getAnswer()">
                 </div>
                 <div id="myModal" class="modal">
                     <!-- Modal content -->
@@ -48,27 +48,29 @@ export default {
     data () {
         return {
             isStart: false,
-            adminName: ''
+            adminName: '',
+            index: 0
         }
     },
     methods: {
         letsPlay () {
             this.isStart = true
-            this.$socket.emit('letsPlay', this.isStart)
+            this.$socket.emit('letsPlay', {isStart: this.isStart, name: this.roomDetail.name})
         } 
     },
     sockets: {
         letsPlay (value) {
-            this.isStart = value
+            this.isStart = value;
         }
     },
     components: {
         player
     },
     computed: {
-        ...mapState(['roomDetail'])
+        ...mapState(['roomDetail', 'questions'])
     },
     created () {
+        this.$socket.emit('addQuestion')
         this.adminName = localStorage.name
     }
 }

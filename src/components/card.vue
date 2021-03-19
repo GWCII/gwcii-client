@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     joinRoom (name) {
-      if(this.room.users <= 4){
+      if(this.room.users.length <= 4){
         let data = {
           name,
           username: localStorage.name,
