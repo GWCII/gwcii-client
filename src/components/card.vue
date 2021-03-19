@@ -17,6 +17,8 @@
 <script>
 import Avataaars from 'vuejs-avataaars'
 import player from './list-player'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'card',
   props: ['room'],
@@ -34,8 +36,9 @@ export default {
         }
         this.$socket.emit('joinRoom', data);
         this.$router.push(`/plays/${data.name}`)
+        Swal.fire('Success', 'Get Ready to guess the celebrity','success');
       } else {
-       console.log("PENUH")
+        Swal.fire('Error', `Room is Full`,'error')
       }
     }
   }

@@ -17,7 +17,7 @@
 
 <script>
 import typical from "vue-typical";
-
+import Swal from 'sweetalert2'
 export default {
   data() {
     return {
@@ -31,6 +31,7 @@ export default {
     login () {
       localStorage.setItem('name', this.name)
       this.$socket.emit('login', this.name)
+      Swal.fire('Success', `Hello ${this.name}`,'success')
       this.$router.push('/lobby')
       this.name = ''
     }

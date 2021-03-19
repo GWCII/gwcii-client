@@ -8,7 +8,7 @@ export default new Vuex.Store({
     rooms: [],
     soalList: [],
     roomDetail: [],
-    questions: []
+    soal: [],
   },
   mutations: {
     insertSoal (state, payload) {
@@ -20,8 +20,12 @@ export default new Vuex.Store({
     roomDetail (state, payload) {
       state.roomDetail = payload
     },
-    addQuestion (state, payload) {
-      state.questions = payload
+    SOCKET_initSoal (state, soal) {
+      state.soal = soal
+    },
+    updateScore (state, payload) {
+      let userIndex = state.roomDetail.users.findIndex(user => user.username === payload.username) 
+      state.roomDetail.users[userIndex].score = payload.score
     }
   },
   actions: {
@@ -34,8 +38,8 @@ export default new Vuex.Store({
       SOCKET_roomDetail (context, payload) {
         context.commit('roomDetail', payload);
       },
-      SOCKET_addQuestion (context, payload) {
-        context.commit('addQuestion', payload);
+      SOCKET_updateScore (context, payload) {
+        context.commit('updateScore', payload)
       }
   },
   modules: {

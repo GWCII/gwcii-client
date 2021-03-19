@@ -11,6 +11,7 @@
 <script>
 import card from '../components/card'
 import {mapState} from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   data () {
@@ -30,8 +31,15 @@ export default {
           admin: localStorage.name
         }
         this.$socket.emit('createRoom', dataRoom)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Your Room has been created',
+          showConfirmButton: false,
+          timer: 1500
+        })
       } else {
-        console.log("Room is already created")
+        Swal.fire('Error', `Room is already exists`,'error')
       }
         this.roomName = ''
     }

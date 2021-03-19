@@ -17,24 +17,19 @@
                 </div>
                 </div>
             </div>
-
-            <div v-if="isStart === true">         
-                <div id="gambar">
-                    <div id="timer"></div>                    
-                        <img :src="questions[index].nama" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
+            
+            <div v-if="isStart === true">           
+                <div id="gambar">                   
+                        <img :src="soal[index].nama" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
                 </div>
-                    <h1 class="hint" id="hint">{{questions[index].hint}}</h1>
+                <div id="hint">
+                    <h1 class="hint" id="hint">{{ soal[index].hint }}</h1>
+                </div>
                 <br><br><br>
                 <div class="d-flex justify-content-center">
-                    <input type="text" id="jawaban" placeholder="Famous Celebrity"> 
-                    <input type="submit" value="submit" id="ambilJawaban" @click.prevent ="getAnswer()">
-                </div>
-                <div id="myModal" class="modal">
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p id="modalHasil"></p>
-                    </div>
+                    <input type="text" style="padding:10px 30px" id="jawaban" v-model="answerForm" placeholder="Famous Celebrity" v-on:keyup.enter="checkAnswer"> 
+                    
+                    <button type="button" class="btn btn-danger" style="margin-left: 10px" value="submit" id="ambilJawaban" @click="checkAnswer">submit</button>
                 </div>
             </div>
         </div>
@@ -44,34 +39,61 @@
 <script>
 import player from '../components/player'
 import {mapState} from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
     data () {
         return {
             isStart: false,
             adminName: '',
-            index: 0
+            index: 0,
+            answer: '',
+            answerForm: '',
+            point: 0
         }
     },
     methods: {
         letsPlay () {
             this.isStart = true
             this.$socket.emit('letsPlay', {isStart: this.isStart, name: this.roomDetail.name})
-        } 
+        },
+        checkAnswer () {
+            if(this.answerForm.toLowerCase() === this.answer.toLowerCase()) {
+                this.$socket.emit('trueAnswer', {name: this.roomDetail.name, username: localStorage.name})
+                this.index++
+                this.answer = this.soal[this.index].jawaban
+            } else {
+                Swal.fire('Error', `Wrong Answer`,'error')    
+            }            
+            this.answerForm = ''
+        }
     },
     sockets: {
         letsPlay (value) {
-            this.isStart = value;
+            this.isStart = value
+        },
+        winner (value) {
+            const isUser = value.users.find(user => user.username === localStorage.name)
+            if(isUser.score === 100){
+                Swal.fire('Success', `Congratulation, You are a winner`,'success')    
+            } else {
+                Swal.fire('Error', `Sorry, at this time you lose`,'error')    
+            }
+            this.$router.push('/lobby')
         }
     },
     components: {
         player
     },
     computed: {
-        ...mapState(['roomDetail', 'questions'])
+        ...mapState(['roomDetail', 'soal'])
     },
     created () {
         this.$socket.emit('addQuestion')
         this.adminName = localStorage.name
+        this.answer = this.soal[this.index].jawaban
+        console.log(this.answer);
+        console.log(this.answerForm);
     }
 }
 </script>
@@ -148,17 +170,6 @@ export default {
     box-shadow: 11px 17px 16px 4px rgba(0,0,0,0.75);
 }
 
-#timer {
-    position: absolute;
-    font-size: 50px;
-    right: 20px;
-    margin-right: 30px;
-    height: 80px;
-    width: 80px;
-    background-color: rgb(156, 38, 38);
-    border: 1px solid white;
-    border-radius: 5px;
-}
 
 h3 {
     margin:20px;
