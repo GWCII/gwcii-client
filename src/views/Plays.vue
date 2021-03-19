@@ -19,15 +19,17 @@
             </div>
             
             <div v-if="isStart === true">           
-                <div id="gambar">
-                    <div id="timer"></div>                    
-                        <img src="../assets/soal/soal 10.jpg" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
+                <div id="gambar">                   
+                        <img :src="soal[index].nama" id="soal" class="img-fluid rounded mx-auto d-block" style="margin-top: 30px; width: 85%;" alt="Responsive image"/>
                 </div>
-                    <h1 class="hint" id="hint"></h1>
+                <div id="hint">
+                    <h1 class="hint" id="hint">{{ soal[index].hint }}</h1>
+                </div>
                 <br><br><br>
-                <div class="d-flex justify-content-center">
-                    <input type="text" id="jawaban" placeholder="Famous Celebrity"> 
-                    <input type="submit" value="submit" id="ambilJawaban" onclick="getAnswer()">
+                <div>
+                    <input type="text" id="jawaban" v-model="answerForm" placeholder="Famous Celebrity"> 
+                    
+                    <button type="button" value="submit" id="ambilJawaban" @click="checkAnswer">submit</button>
                 </div>
                 <div id="myModal" class="modal">
                     <!-- Modal content -->
@@ -44,32 +46,55 @@
 <script>
 import player from '../components/player'
 import {mapState} from 'vuex'
+
 export default {
     data () {
         return {
             isStart: false,
-            adminName: ''
+            adminName: '',
+            index: 0,
+            answer: '',
+            answerForm: '',
+            point: 0
         }
     },
     methods: {
         letsPlay () {
             this.isStart = true
             this.$socket.emit('letsPlay', this.isStart)
-        } 
+        },
+        checkAnswer () {
+            console.log(this.answerForm, this.answer)
+            
+            if(this.answerForm === this.answer) {
+                this.$socket.emit('trueAnswer', {name: this.roomDetail.name, username: localStorage.name})
+                this.index++
+                this.answer = this.soal[this.index].jawaban
+            } else {
+                console.log('wrong answer');
+            }            
+        }
     },
     sockets: {
         letsPlay (value) {
             this.isStart = value
+        },
+        winner (value) {
+            console.log(value.username)
+            this.$router.push('/lobby')
         }
     },
     components: {
         player
     },
     computed: {
-        ...mapState(['roomDetail'])
+        ...mapState(['roomDetail', 'soal'])
     },
     created () {
         this.adminName = localStorage.name
+        this.answer = this.soal[this.index].jawaban
+        console.log(this.answer);
+        console.log(this.answerForm);
     }
 }
 </script>
@@ -146,17 +171,6 @@ export default {
     box-shadow: 11px 17px 16px 4px rgba(0,0,0,0.75);
 }
 
-#timer {
-    position: absolute;
-    font-size: 50px;
-    right: 20px;
-    margin-right: 30px;
-    height: 80px;
-    width: 80px;
-    background-color: rgb(156, 38, 38);
-    border: 1px solid white;
-    border-radius: 5px;
-}
 
 h3 {
     margin:20px;
