@@ -6,7 +6,9 @@ import VueSocketIO from 'vue-socket.io'
 import VueFakeInput from 'vue-fake-input';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueSweetalert2 from 'vue-sweetalert2';
 
+Vue.use(VueSweetalert2);
 Vue.use(VueFakeInput);
 Vue.config.productionTip = false
 

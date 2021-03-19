@@ -1,8 +1,8 @@
 <template>
   <div class="container text-center">
+      <h1>WELCOME TO GWCII</h1>
     <div>
-      <h1>LIST ROOM</h1>
-      <input type="text" placeholder="Create Room" v-model="roomName" v-on:keyup.enter="createRoom">
+      <input class="text-center" type="text" placeholder="Create Room" v-model="roomName" v-on:keyup.enter="createRoom">
     </div>
     <card v-for="(room, idx) in rooms" :key="idx" :room="room"/>
   </div>
@@ -34,8 +34,10 @@ export default {
   },
   computed: {
     ...mapState(['rooms'])
+  },
+  created () {
+    this.$socket.emit('getRooms')
   }
-
 }
 </script>
 
