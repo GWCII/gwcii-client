@@ -10,17 +10,34 @@
         <player v-for="(player, idx) in room.users" :key="idx" :player="player"/>
       </ul>
     </div>
-    <button class="btn btn-danger">JOIN</button>
+    <button class="btn btn-danger" @click.prevent="joinRoom(room.name)">JOIN</button>
   </div>
 </template>
 
 <script>
-import player from './player'
+import Avataaars from 'vuejs-avataaars'
+import player from './list-player'
 export default {
   name: 'card',
   props: ['room'],
   components: {
-    player
+    player,
+    Avataaars
+  },
+  methods: {
+    joinRoom (name) {
+      if(this.room.users <= 4){
+        let data = {
+          name,
+          username: localStorage.name,
+          score: 0
+        }
+        this.$socket.emit('joinRoom', data);
+        this.$router.push(`/plays/${data.name}`)
+      } else {
+       console.log("PENUH")
+      }
+    }
   }
 }
 </script>

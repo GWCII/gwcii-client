@@ -39,6 +39,9 @@ export default {
     login (data) {
       console.log(data);
     }
+  },
+  created () {
+    localStorage.removeItem('name')
   }
 }
 </script>
@@ -65,15 +68,6 @@ export default {
     transform: translateX(0px);
     opacity: 1;
   }
-}
-.settings::before,
-.settings::after {
-  content: '';
-  clear: both;
-  display: table;
-}
-.settings.hide, .btn.hide, .info.hide, .result-box.hide{
-  display: none;
 }
 .home-box h1, .home-box p {
   text-align: center;
