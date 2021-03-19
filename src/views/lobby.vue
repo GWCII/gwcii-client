@@ -28,6 +28,7 @@ export default {
         admin: localStorage.name
       }
       this.$socket.emit('createRoom', dataRoom)
+      this.$store.dispatch('createRoom', dataRoom)
       this.roomName = ''
     }
   },

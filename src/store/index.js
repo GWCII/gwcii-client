@@ -14,7 +14,6 @@ export default new Vuex.Store({
       state.soalList = payload
     },
     addRoom (state, payload) {
-      console.log(payload)
       state.rooms = payload
     }
   },
@@ -22,7 +21,7 @@ export default new Vuex.Store({
     fetchSoal(context) {
       axios
         .get('/soal')
-        .then(({data}) => {
+        .then(({ data }) => {
           context.commit("insertSoal", data)
         })
         .catch((err) => {
